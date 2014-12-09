@@ -6,6 +6,10 @@
 % (c) 2009-2010 Ralph Broenink
 % Alle rechten voorbehouden.
 %
+% Versie 0.2.2 (3 okt 2013)
+% - \wobit geeft nu ook een zwarte balk
+% - \sluiting sluit nu ook echt de vergadering
+% - Font gewijzigd naar Palatino
 % Versie 0.2.1 (3 mar 2010)
 % - Added WOB
 % Versie 0.2 (25 feb 2010)
@@ -15,7 +19,7 @@
 % - Initiele release
 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
-\ProvidesClass{notulen}[2010/03/03 Inter-Actief Notulen]
+\ProvidesClass{notulen}[2013/10/03 Inter-Actief Notulen]
 
 \LoadClass[a4paper,11pt,twoside]{article}
 
@@ -35,10 +39,16 @@
 % - fmtcount: Voor doortellen bij de subkopjes
 % - substr: Voor het doorgeven van actiepunten in de reactiepuntenlijst
 % - hyperref: Vette linkjes in de agenda
+% - mathpazo: Voor palatino
+% - fontenc: Ook voor palatino
 \RequirePackage[dutch]{babel}
 \RequirePackage[usenames,dvipsnames]{color}
 \RequirePackage{ifthen,fullpage,lineno,tocloft,fancyhdr,marginnote,hanging,longtable,fmtcount,substr}
 \RequirePackage[colorlinks=false]{hyperref} % als laatste importeren
+
+\usepackage[sc]{mathpazo}
+\linespread{1.05}         % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Algemeen
@@ -47,7 +57,7 @@
 % Configuratie van PDF
 \hypersetup{%
 	pdfborder={0 0 0},
-	pdfcreator={Inter-Actief Notulen 0.1}
+	pdfcreator={Inter-Actief Notulen 0.2.2 / (c) Ralph Broenink}
 }
 
 % Herziet het \author commando om deze ook in de pdf aan te passen
@@ -277,14 +287,14 @@
 
 \newcommand{\wob}[1]{%
 	\ifthenelse{\boolean{wob@on}}{%
-		\colorbox{black}{\phantom{\tiny #1}}%
+		\protect\colorbox{black}{\protect\phantom{\tiny #1}}%
 	}{%
 		#1%
 	}%
 }
 
 \newcommand{\wobit}[1]{%
-	\ \ \ \ \ %
+	\protect\colorbox{black}{\protect\phantom{\tiny #1}}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -372,7 +382,7 @@
 	\ifthenelse{\equal{#1}{}}{%
 		\gebeurtenis[\algemeen@eind]{De voorzitter sluit de vergadering.}%
 	}{%
-		\gebeurtenis[#1]{De voorzitter opent de vergadering.}%
+		\gebeurtenis[#1]{De voorzitter sluit de vergadering.}%
 	}%
 }
 
@@ -386,6 +396,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Stemmingen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Geeft een boolean waarmee aan wordt gegeven of blanco mee wordt getelt met
+% de stemming.
+\newboolean{stemming@blancotellen}
+\setboolean{stemming@blancotellen}{false}
+
+% Stelt in dat blanco wel wordt getelt
+% Gebruik: \stemmingblancoteltwel
+\newcommand{\stemmingblancoteltwel}{%
+	\setboolean{stemming@blancotellen}{true}%
+}
+
+% Stelt in dat blanco niet wordt getelt
+% Gebruik: \stemmingblancoteltniet
+\newcommand{\stemmingblancoteltniet}{%
+	\setboolean{stemming@blancotellen}{false}%
+}
+
+
+
+% Geeft een boolean waarmee aan wordt gegeven of stakende stemmen een
+% verwerping opleveren, of onbeslist blijven.
+\newboolean{stemming@verwerpstakend}
+\setboolean{stemming@verwerpstakend}{false}
+
+% Stelt in dat stakende stemmen een voorstel verwerpen.
+% Gebruik: \stemmingstakingverwerptwel
+\newcommand{\stemmingstakingverwerptwel}{%
+	\setboolean{stemming@verwerpstakend}{true}%
+}
+
+% Stelt in dat stakende stemmen een voorstel onbeslist laten.
+% Gebruik: \stemmingstakingverwerptniet
+\newcommand{\stemmingstakingverwerptniet}{%
+	\setboolean{stemming@verwerpstakend}{false}%
+}
+
+
 
 % Begint een stemming, waarbij blanco stemmen bij de meeste op wordt geteld en 
 % er geen onthouding wordt genotuleerd
@@ -433,15 +481,19 @@
 		}%
 		\ifthenelse{\equal{#1}{}}{%
 			\ifthenelse{\equal{#4}{#5}}{%
-				De stemming is onbeslist.%
+				\ifthenelse{\boolean{stemming@verwerpstakend}}{%
+                    Het voorstel wordt verworpen met stakende stemmen.%
+                }{%
+                    De stemming is onbeslist.%
+                }%
 			}{%
 				\ifthenelse{#4 > #5}{%
 					\setcounter{stem@temp}{#4}%
-					\addtocounter{stem@temp}{#6}%
+                    \ifthenelse{\boolean{stemming@blancotellen}}{\addtocounter{stem@temp}{#6}}{}%
 					Het voorstel wordt aangenomen met \arabic{stem@temp} tegen #5.%
 				}{%
 					\setcounter{stem@temp}{#5}%
-					\addtocounter{stem@temp}{#6}%
+                    \ifthenelse{\boolean{stemming@blancotellen}}{\addtocounter{stem@temp}{#6}}{}%
 					Het voorstel wordt verworpen met #4 tegen \arabic{stem@temp}.%
 				}%
 			}%

@@ -6,7 +6,7 @@
 % Tot en met hier
 
 \author{Project \LaTeX}
-\title{Vergadering PL-01 \textsuperscript{e}}
+\title{Vergadering PL-01}
 \vcode{PL01}
 \date{25 september 2009}
 
@@ -182,7 +182,7 @@
 			\end{lstlisting}
 			
 			Het voordeel van het herhalen van een actiepunt is dat de actiepuntcode niet verandert. Ze kunnen in de volgende vergadering wel allemaal
-			een andere code toegewezen krijgen.
+			een andere status toegewezen krijgen.
 			
 		\subsection{Opsommen}
 			Aan het einde van het document kun je alle actiepunten opsommen met `\lstinline!\actiepunten!'. Als je dit compileert, komen alle actiepunten
@@ -242,6 +242,8 @@
 		\end{lstlisting}
 		
 		In alle gevallen kan de interpretatie eventueel worden weggelaten. Je kunt bovendien een getal negeren door er `geen' voor in te vullen.
+
+		Met behulp van het commando `\lstinline!\stemmingblancoteltwel!' kan aan worden gegeven dat blanco wel meetelt met de meerderheid in de stemming (dit gebeurt standaard niet). Bij stakende stemmen (voor is gelijk aan tegen) wordt standaard vermeld dat de stemming onbeslist is; je kunt met `\lstinline!\stemmingstakingverwerptwel!' aangeven dat stakende stemmen een voorstel verwerpen.
 		
 		Let op dat een stemming nog geen besluit is en dat je waarschijnlijk nog een besluit wilt nemen na een positieve uitkomst.
 	
@@ -275,13 +277,13 @@
 	\section{WOB}
 		Met de Wet Openbaarheid Bestuur is het mogelijk dat mensen notulen op gaan vragen. Deze mag je natuurlijk censureren. Dit kan ook met deze notulen class.
 		
-		Bijvoorbeeld de tekst die ik hier typ, \wob{is vergeven van het} commando `\lstinline!\wob{tekst}!'. Je kunt deze modus expliciet op een willekeurige plek aan en uitzetten met \wob{de respectievelijke} commando's `\lstinline!\wobon!' en `\lstinline!\woboff!'. Als je de laatste bovenaan je document zet, kun je dus wel WOB-commando's in je document gebruiken, zonder \wob{dat deze} effect \wob{hebben}. Dan kun \wob{je dus wel} WOB-commando's \wob{vast} voorbereiden voor het geval \wob{de notulen} door iemand op worden gevraagd. \wob{Omdat je ze ook} dwars door het document heen aan- en uit kunt zetten, kan dat ook op paragraaf-basis.
+		Bijvoorbeeld de tekst die ik hier typ, \wob{is vergeven van het} commando `\lstinline!\wob{tekst}!'. Je kunt deze modus expliciet op een willekeurige plek aan en uitzetten met \wob{de respectievelijke} commando's `\lstinline!\wobon!' en `\lstinline!\woboff!'. Als je de laatste bovenaan je document zet, kun je dus wel WOB-commando's in je document gebruiken, zonder \wob{dat deze} effect \wob{hebben}. Dan kun je dus \wob{wel} WOB-commando's \wob{vast} voorbereiden voor het geval \wob{de notulen} door iemand op worden gevraagd. \wob{Omdat je ze ook} dwars door het document heen aan- en uit kunt zetten, kan dat ook op paragraaf-basis.
 		
-		Het effect bij besluiten (en actiepunten) is vooralsnog wel irritant, gezien hierin geen phantoms of black boxes geplaatst kunnen worden (de uitvoer van dit commando wordt in een bestand gezet voor de listing ervan). Vandaar het commando `\lstinline!\wobit{tekst}!' dat altijd de tekst vervangt door vier spaties, ook als de wob-modus uitstaat:
+		Het effect bij besluiten (en actiepunten) is vooralsnog wel vervelend, gezien hierin geen if-statement geplaatst kan worden worden (de uitvoer van dit commando wordt in een bestand gezet voor de listing ervan). Vandaar het commando `\lstinline!\wobit{tekst}!' dat altijd de tekst vervangt door een zwarte balk, ook als de wob-modus uitstaat:
 		
 		\besluit{Het WOB-commando is erg \wobit{irritant} bij besluiten.}
-		
-		Hier moet nog even goed naar gekeken worden.
+
+		Veranderd op 3 oktober 2013: `\lstinline!\wobit{tekst}!' wordt nu ook een zwarte balk i.p.v. vijf spaties.
 		
 	\section{Known Issues}
 		Er zijn op dit moment geen problemen meer bekend met deze versie.
@@ -309,5 +311,91 @@
 	\section{Sluiting}
 		%\gebeurtenis[12:34]{De voorzitter sluit de vergadering.}
 		\sluiting
+
+	\appendix 
+	\newpage
+	\section{Overzicht commando's}
+		De volgende commando's worden extra door deze template gespecificeerd:
+		\begin{description}
+			\item[\textbackslash vcode\{code\}] Opgeven van vergadercode in preamble.
+			\item[\textbackslash ia] Shorthand voor \ia
+			\item[\textbackslash ecomputing] Shorthand voor \ecomputing
+		\end{description}
+		\subsection{Algemeen environment}
+		\begin{description}
+			\item[algemeen] Environment voor algemene informatie van de vergadering
+			\begin{description}
+    			\item[\textbackslash locatie\{locatie\}] Opgeven van vergaderlocatie
+    			\item[\textbackslash tijden\{starttijd\}\{eindtijd\}] Opgeven van begin- en eindtijd
+    			\item[\textbackslash voorzitter\{voorzitter\}] Opgeven van vergadervoorzitter
+    			\item[\textbackslash notulist\{notulist\}] Opgeven van notulist
+    			\item[\textbackslash aanwezigen] Begin van lijst van aanwezigen
+    			\item[\textbackslash afwezigen] Begin van lijst van afwezigen
+    			\item[\textbackslash persoon[opmerking\rbrack\{code\}\{korte naam\}\{lange naam\}] Definitie van persoon in aanwezigheids- of afwezigheidslijst, en definitie van \textbackslash code en \textbackslash codecode
+    			\item[\textbackslash persoonh] Zelfde als \textbackslash persoon, maar dan voor verborgen personen.
+ 			\end{description}
+
+		\end{description}
+		\subsection{WOB}
+		\begin{description}
+			\item[\textbackslash wobon] Schakelt WOB-modus in (standaard)
+			\item[\textbackslash woboff] Schakelt WOB-modus uit
+			\item[\textbackslash wob] WOBt een stuk tekst, afhankelijk van de WOB-boolean
+			\item[\textbackslash wobit] WOBt een stuk tekst, onafhankelijk van de WOB-boolean
+
+		\end{description}
+		\subsection{Agenda}
+		\begin{description}
+			\item[\textbackslash agenda] Geeft de agenda weer
+
+		\end{description}
+		\subsection{Margelijst}
+		\begin{description}
+			\item[margelijst] Environment voor een margelijst
+			\begin{description}
+    			\item[\textbackslash mar[tekst\rbrack] Item in de margelijst.
+ 			\end{description}
+
+		\end{description}
+		\subsection{Gebeurtenissen}
+		\begin{description}
+    		\item[\textbackslash gebeurtenis[tijd\rbrack\{tekst\}] Gebeurtenis in een vergadering om een tijd
+    		\item[\textbackslash opening[tijd\rbrack] Opening van de vergadering. Neemt de tijd over uit de algemeen environment als niet meegegeven
+    		\item[\textbackslash sluiting[tijd\rbrack] Sluiting van de vergadering. Neemt de tijd over uit de algemeen environment als niet meegegeven
+    		\item[\textbackslash schorsing\{tijd1\}\{tijd2\}] Schorsing van tijd1 tot tijd2.
+
+		\end{description}
+		\subsection{Stemmingen}
+		\begin{description}
+			\item[\textbackslash stemmingblancoteltwel] Stelt in dat blanco meetelt bij de conclusie van stemmingen
+			\item[\textbackslash stemmingblancoteltniet] Stelt in dat blanco niet meetelt bij de conclusie van stemmingen (standaard)
+			\item[\textbackslash stemmingstakingverwerptwel] Stelt in dat stakende stemmen het voorstel verwerpen
+			\item[\textbackslash stemmingstakingverwerptniet] Stelt in dat stakende stemmen het voorstel niet verwerpen (standaard)
+			
+			\item[\textbackslash stemming[conclusie\rbrack\{voorstel\}\{aantal voor\}\{aantal tegen\}\{aantal blanco\}\{aantal onthouding\}] Geeft een stemming over het voorstel, met een optionele conclusie (anders standaardconclusie) en het aantal voor-, tegen- blanco- en onthoudingsstemmen. Elke stemoptie kan worden weggelaten door `geen' in te vullen.
+			\item[\textbackslash stemmingC[conclusie\rbrack\{type\}\{voorstel\}\{aantal voor\}\{aantal tegen\}\{aantal blanco\}\{aantal onthouding\}] Zelfde als \textbackslash stemming, maar met type.
+			\item[\textbackslash stemmingO[conclusie\rbrack\{voorstel\}\{aantal voor\}\{aantal tegen\}\{aantal blanco\}] \emph{deprecated}
+
+		\end{description}
+		\subsection{Besluiten}
+		\begin{description}
+			\item[\textbackslash besluit\{besluit\}] Neemt een besluit
+			\item[\textbackslash besluiten] Geeft een overzicht van alle besluiten
+		\end{description}
+
+		\subsection{Actiepunten}
+		\begin{description}
+			\item[reactiepuntenlijst] Environment om reactiepunten (herhaling van actiepunten uit vorige notulen) in op te sommen
+			\begin{description}
+    			\item[\textbackslash reactiepunt[deadline\rbrack\{nummer\}\{persoon\}\{actiepunt\}\{status\}] Geeft de status van een actiepunt uit vorige notulen. Mogelijke statussen zijn: V = Voldaan, X = Vervallen, \textbackslash naar\{naam\} = Doorgegeven aan iemand anders, L = lopend, of iets anders voor lopend met een andere omschrijving
+				\item[\textbackslash naar\{naam\}] Geeft een actiepunt door aan iemand anders
+ 			\end{description}
+			\item[\textbackslash actiepunt[deadline\rbrack\{persoon\}\{actiepunt\}] Geeft een actiepunt aan een persoon met een optionele deadline
+			\item[\textbackslash ap[deadline\rbrack\{persoon\}\{actiepunt\}] \emph{zie \textbackslash actiepunt}
+			\item[\textbackslash herhaal[deadline\rbrack\{persoon\}] Geeft het vorige actiepunt ook aan een andere persoon, eventueel met een andere deadline
+			\item[\textbackslash apnr] Geeft het huidige actiepuntnummer
+			\item[\textbackslash actiepunten] Geeft een overzicht van alle actiepunten gegroepeerd op naam
+
+		\end{description}
 	
 \end{document}
