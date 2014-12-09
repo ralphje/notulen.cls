@@ -1,0 +1,313 @@
+\documentclass[a4paper]{notulen}
+
+% Wordt gebruikt voor de codevoorbeelden en mag dus ook weg worden gehaald:
+\usepackage{listings}
+\lstset{language=tex,basicstyle=\small,keywordstyle=\bfseries}
+% Tot en met hier
+
+\author{Project \LaTeX}
+\title{Vergadering PL-01 \textsuperscript{e}}
+\vcode{PL01}
+\date{25 september 2009}
+
+\begin{document}
+	\linenumbers
+	\maketitle
+	
+	\persoonh{rb}{Ralph}{Ralph Broenink}
+	
+	\begin{algemeen}
+		\aanwezigen
+			\persoon{ab}{Ab}{Ab Coude}
+			\persoon[12:34]{cd}{Cor}{Cor Rea}
+			\persoon{rb}{Ralph}{Ralph Broenink}
+		\afwezigen
+			\persoon[mk]{ef}{Ed}{Ed Dison}
+		\voorzitter{\cdcd}
+		\notulist{\abab}
+		\locatie{Kamer \ia}
+		\tijden{12:30}{13:30}
+	\end{algemeen}
+	\section{Opening}
+		%\gebeurtenis[12:34]{De voorzitter opent de vergadering.}
+		\opening[12:34]
+	
+	\section{Mededelingen}
+		Project \LaTeX\ is ge\"initieerd door \rbrb\ (licht gebaseerd op het werk van Jarmo) en bestaat op dit moment slechts uit een notulentemplate dat gebruikt kan worden door
+		commissies van \ia. Dit document laat zien wat er allemaal mogelijk is.
+		
+	\section{Vaststelling agenda}
+		\agenda 
+		
+	\section{Secretarieel}
+		\subsection{Notulen vorige vergadering}
+			\besluit{De notulen van de vorige vergadering worden, met inachtneming van de wijzigingen, goedgekeurd.}
+			
+		\subsection{Actiepunten}
+			\begin{reactiepuntenlijst}
+				\reactiepunt{PL00.01}{\rb}{zorgt voor een aanwezigheidslijst}{V}
+				\reactiepunt{PL00.02}{Ralph}{eet koekjes}{\naar{\ef}}
+				\reactiepunt[1 oktober]{PL00.05}{\ef}{gaat taart halen}{L}
+				\reactiepunt[2 oktober]{PL00.04}{\ab}{gaat taart eten nadat \ef\ taart op heeft gehaald en deze met slagroom heeft bespoten}{X}
+			\end{reactiepuntenlijst}
+			
+		\subsection{Ingezonden stukken}
+			Er zijn geen ingezonden stukken.
+
+	\section{Begin van het document}
+		\subsection{Preamble}
+			
+			
+			\begin{lstlisting}
+\documentclass[a4paper]{notulen}
+
+\author{Project \LaTeX}
+\title{Vergadering PL-01}
+\vcode{PL01}
+\date{25 september 2009}
+
+\begin{document}
+	\linenumbers
+	\maketitle
+			\end{lstlisting}
+			
+			De meeste commando's spreken voor zich. De auteur is de commissie; de titel is de titel van de vergadering. De `vcode' wordt gebruikt
+			als identifier in de actiepunten. De datum is de voleldige datum. Het is niet nodig om notulen.cls te includen als deze in de juiste map staat.
+			
+			Iets minder preamble, maar even belangrijk: met `\lstinline!\linenumbers!' zet je de regelnummers aan en met `\lstinline!\maketitle!' maak
+			je een mooie kop boven je notulen.
+			
+		\subsection{Algemene informatie}
+			Iedere vergadering heeft algemene informatie, zoals de plaats, tijd en aanwezigen. Ook een titel en bijvoorbeeld de 
+			studievereniging kunnen handig zijn. De code om het begin van deze notulen te maken, is als volgt:
+			
+			\begin{lstlisting}
+\begin{algemeen}
+	\aanwezigen
+		\persoon{ab}{Ab}{Ab Coude}
+		\persoon[12:34]{cd}{Cor}{Cor Rea}
+		\persoon{rb}{Ralph}{Ralph Broenink}
+	\afwezigen
+		\persoon[mk]{ef}{Ed}{Ed Dison}
+	\voorzitter{\cdcd}
+	\notulist{\abab}
+	\locatie{Kamer \ia}
+	\tijden{12:30}{13:30}
+\end{algemeen}
+			\end{lstlisting}
+			
+			In de `environment' ``algemeen'' kun je alle algemene informatie van de vergadering plaatsen. De lijst met aanwezigen wordt
+			vooraf gegaan door `\lstinline!\aanwezigen!'. Vervolgens kun je gewoon personen declareren. Deze personen hebben speciale functies.
+			
+			Zo worden actiepunten aan het eind van de notulen gesorteerd op de volgorde zoals ze hier worden gedeclareerd (actiepunten voor externe
+			personen worden er onderaan aan toegevoegd, in volgorde van voorkomen). 
+			
+			Bovendien kun je shorthands voor personen declareren. In de gehele notulen kun je bijvoorbeeld `\lstinline!\ab!' gebruiken om ``\ab''
+			weer te geven. Twee keer de afkorting achter elkaar geeft de volledige naam: `\lstinline!\abab!' geeft ``\abab''.
+			
+			De volledige argumenten zijn:\\ `\lstinline!\persoon{code}{naam voor \code}{naam voor aanwezigheidslijst en \codecode}!'. Je kunt ook meer opgeven:
+			`\lstinline!\persoon[opmerking]{code}{naam}{naam}!' zet tussen haakjes achter de naam een opmerking. Denk hierbij aan de studievereniging voor grote
+			verenigingen, de tijd van aankomst of bij afwezigheid `mk' voor `met kennisgeving'.
+			
+			Mocht het nodig zijn, dan kun je een persoon ook `verborgen' opgeven met `\lstinline!\persoonh!' (zelfde syntaxis als de gewone zonder een opmerking),
+			bijvoorbeeld om een volgorde in actiepunten te kunnen garanderen.
+			
+			Verder kun je nog de voorzitter, notulist, locatie en tijden van de vergadering opgeven. Dit kan eenvoudig van de agenda worden gekopieerd die 
+			normaliter voor de vergadering rond wordt gestuurd.
+			
+			Opvallend is dat je overigens ook dat `\lstinline!\ia!' een afkorting is voor `\ia'. Ook kun je `\lstinline!\ecomputing!' gebruiken.
+		
+		\subsection{Agenda}
+			De agenda van de vergadering wordt samengesteld aan de hand van de sections en subsections in de notulen. Met een simpele aanroep van
+			`\lstinline!\agenda!' kun je deze opvragen.
+			
+		\subsection{Actiepunten vorige vergadering}
+			In iedere vergadering wil je de actiepunten (zie ook onder) van een vorige vergadering opsommen, inclusief de status van het actiepunt.
+			De code voor de actiepunten hierboven is als volgt:
+			
+			\begin{lstlisting}
+\begin{reactiepuntenlijst}
+	\reactiepunt{PL00.01}{\rb}{zorgt voor een aanwezigheidslijst}{V}
+	\reactiepunt{PL00.02}{Ralph}{eet koekjes}{\naar{\ef}}
+	\reactiepunt[1 oktober]{PL00.05}{\ef}{gaat taart halen}{L}
+	\reactiepunt[2 oktober]{PL00.04}{\ab}{gaat taart eten}{X}
+\end{reactiepuntenlijst}
+			\end{lstlisting}
+			
+			Ieder reactiepunt moet in de environment `reactiepuntenlijst' worden geplaatst.
+			
+			Als een actiepunt voldaan is of komt te vervallen, moet deze niet nogmaals op worden gesomd als lopend actiepunt. Dat kun je aangeven met 
+			de statuscodes `V' (voldaan) `X' (vervallen) en `L' (lopend) in het laatste argument van het reactiepunt. Als een actiepunt door wordt gegeven
+			aan een ander persoon, kan `\lstinline!\naar{naam}!' worden gebruikt. Elke andere status zal direct uit worden gevoerd naar de lijst en het 
+			punt wordt als lopend beschouwd.
+			
+			De verdere syntaxis is gelijk aan die van het aanmaken van een actiepunt. Hieronder kun je lezen hoe dat gaat.
+						
+	\section{Actiepunten}
+		\subsection{Aanmaken}
+			Het belangrijkste onderdeel van de notulen is uiteraard de actiepunten. Actiepunten zijn de concrete stappen die ondernomen moeten
+			worden om een bepaald doel te halen.
+			
+			Het aanmaken van een actiepunt gaat heel eenvoudig. Hieronder zie je een leuk actiepunt dat ik voor mezelf ga declareren:
+			
+			\ap{\rb}{gaat een actiepunt voor zichzelf opstellen.}
+			
+			\begin{lstlisting}
+\actiepunt{\rb}{gaat een actiepunt voor zichzelf opstellen.}
+			\end{lstlisting}
+			
+			De syntaxis is dus erg eenvoudig: `\lstinline!\actiepunt{naam}{actie}!'. Zoals gezegd, kun je hier een shorthand gebruiken voor de naam,
+			maar ook een naam van iemand die nog niet bekend is. Of gewoon een naam die al wel bekend is, als je het voluit wilt typen.
+			
+			Een deadline koppelen aan een actiepunt is ook mogelijk door de optionele datum mee te geven met `\lstinline!\actiepunt[datum]{naam}{actie}!':
+			
+			\actiepunt[1 oktober]{Gerard}{stelt zich voor.}
+			
+			\begin{lstlisting}
+\actiepunt[1 oktober]{Gerard}{stelt zich voor.}
+			\end{lstlisting}
+			
+			Soms komt het voor dat je een actiepunt wilt herformuleren voor een ander persoon, bijvoorbeeld omdat een taak voor twee personen kan 
+			gelden. Dit kan eenvoudig met `\lstinline!\herhaal{naam}!'. Het herhalen van een actiepunt kan alleen als er al een actiepunt is
+			gedefineerd. Bij het halen kan een actiepunt ook een andere deadline toegewezen krijgen met `\lstinline!\herhaal[deadline]{naam}!'.
+			
+			\herhaal{\ab}
+			\herhaal[5 oktober]{Harm}
+			\herhaal[]{Fred}
+			
+			\begin{lstlisting}
+\herhaal{\ab}
+\herhaal[5 oktober]{Harm}
+\herhaal[]{Fred}
+			\end{lstlisting}
+			
+			Het voordeel van het herhalen van een actiepunt is dat de actiepuntcode niet verandert. Ze kunnen in de volgende vergadering wel allemaal
+			een andere code toegewezen krijgen.
+			
+		\subsection{Opsommen}
+			Aan het einde van het document kun je alle actiepunten opsommen met `\lstinline!\actiepunten!'. Als je dit compileert, komen alle actiepunten
+			als een `reactiepunt' in de compile-uitvoer te staan, zodat deze eenvoudig opgenomen kunnen worden in de actiepuntenlijst van de volgende
+			vergadering.
+			
+	\section{Besluiten en gebeurtenissen}
+		In een vergadering gebeurt er regelmatig wat. Alles notuleren zou ondoenlijk zijn, maar het is wel mogelijk om gebeurtenissen als een
+		schorsing of opening te notuleren. Er zijn twee varianten: een gebeurtenis met een tijd en \'e\'en zonder.
+		
+		\gebeurtenis[12:34]{De voorzitter schorst de vergadering}
+		\gebeurtenis{De voorzitter is de tijd vergeten}
+		
+		\begin{lstlisting}
+\gebeurtenis[12:34]{De voorzitter schorst de vergadering}
+\gebeurtenis{De voorzitter is de tijd vergeten}
+		\end{lstlisting}
+		
+		De syntaxis is vrij straight-forward.
+		
+		Nog eenvoudiger is het formuleren van besluiten. Dat kan met het commando `\lstinline!\besluit!':
+		
+		\besluit{De voorzitter gaat een horloge kopen.}
+		
+		\begin{lstlisting}
+\besluit{De voorzitter gaat een horloge kopen.}
+		\end{lstlisting}
+	
+		Aan het eind opsommen van de besluiten kan uiteraard ook. Het commando `\lstinline!\besluiten!' geeft een bullet-list met de besluiten.
+	
+	\section{Stemmingen}
+		Je kunt natuurlijk ook stemmen in een vergadering:
+		
+		\stemming{Er moeten koekjes in de kast komen}{1}{2}{3}{4}
+		
+		Je kunt er ook een eigen interpretatie aan geven, of onthouding niet weergeven:
+		
+		\stemming[De voorzitter is eigenwijs en verwerpt de motie]{Het horloge moet een Rolex zijn}{2}{1}{0}{geen}
+		
+		Voor volledige controle, is het ook mogelijk om een type op te geven voor de stemming, bijvoorbeeld een motie:
+		
+		\stemmingC{Motie}{Er moeten koekjes in de kast komen}{1}{2}{3}{4}
+		
+		De code voor bovenstaande objecten is als volgt:
+		
+		\begin{lstlisting}
+\stemming{Er moeten koekjes in de kast komen}{1}{2}{3}{4}
+\stemming[De voorzitter (...) motie]{Het horloge (...) zijn}{2}{1}{0}{geen}
+\stemmingC{Motie}{Er moeten koekjes in de kast komen}{1}{2}{3}{4}
+		\end{lstlisting}
+		
+		De syntaxis van de commando's lijkt ingewikkeld, maar dat is het niet:
+		
+		\begin{lstlisting}
+\stemming[interpretatie]{voorstel}{voor}{tegen}{blanco}{onthouding}
+\stemmingC[interpretatie]{type}{voorstel}{voor}{tegen}{blanco}{onthouding}
+		\end{lstlisting}
+		
+		In alle gevallen kan de interpretatie eventueel worden weggelaten. Je kunt bovendien een getal negeren door er `geen' voor in te vullen.
+		
+		Let op dat een stemming nog geen besluit is en dat je waarschijnlijk nog een besluit wilt nemen na een positieve uitkomst.
+	
+	\section{Documentopmaak}
+		Het kan voorkomen dat je een dermate complex verhaal op moet schrijven,
+		dat het een stuk overzichtelijker wordt als je een margelijst wilt, bijvoorbeeld om
+		een discussie duidelijk te maken.
+		
+		
+		\begin{margelijst}	
+			\mar[Ralph] Er zijn geen koekjes in deze vergadering en ik vind dat erg jammer
+			\mar Dat gaat echt helemaal nergens over, koekjes kunnen ook best buiten de vergadering
+			\mar[Ralph] Dus? Ik wil gewoon koekjes!
+			\mar[\ab] Haal ze dan zelf!
+			\mar[Ralph] Ok\'e dan doe ik dat!
+			\mar Er heerst grote ontevredenheid over het verloop van de vergadering.
+		\end{margelijst}
+		
+		Ieder item wordt voorafgegaan door `\lstinline!\mar!' of door `\lstinline!\mar[naam]!'. Dit alles gebeurt in
+		de environment `margelijst':
+		
+		\begin{lstlisting}
+\begin{margelijst}	
+	\mar[Ralph] Er zijn (...) erg jammer
+	\mar Dat gaat (...) de vergadering
+\end{margelijst}
+		\end{lstlisting}
+		
+		Het is natuurlijk ook mogelijk om de opmaak te gebruiken die nu bij de rondvraag wordt gebruikt.
+		
+	\section{WOB}
+		Met de Wet Openbaarheid Bestuur is het mogelijk dat mensen notulen op gaan vragen. Deze mag je natuurlijk censureren. Dit kan ook met deze notulen class.
+		
+		Bijvoorbeeld de tekst die ik hier typ, \wob{is vergeven van het} commando `\lstinline!\wob{tekst}!'. Je kunt deze modus expliciet op een willekeurige plek aan en uitzetten met \wob{de respectievelijke} commando's `\lstinline!\wobon!' en `\lstinline!\woboff!'. Als je de laatste bovenaan je document zet, kun je dus wel WOB-commando's in je document gebruiken, zonder \wob{dat deze} effect \wob{hebben}. Dan kun \wob{je dus wel} WOB-commando's \wob{vast} voorbereiden voor het geval \wob{de notulen} door iemand op worden gevraagd. \wob{Omdat je ze ook} dwars door het document heen aan- en uit kunt zetten, kan dat ook op paragraaf-basis.
+		
+		Het effect bij besluiten (en actiepunten) is vooralsnog wel irritant, gezien hierin geen phantoms of black boxes geplaatst kunnen worden (de uitvoer van dit commando wordt in een bestand gezet voor de listing ervan). Vandaar het commando `\lstinline!\wobit{tekst}!' dat altijd de tekst vervangt door vier spaties, ook als de wob-modus uitstaat:
+		
+		\besluit{Het WOB-commando is erg \wobit{irritant} bij besluiten.}
+		
+		Hier moet nog even goed naar gekeken worden.
+		
+	\section{Known Issues}
+		Er zijn op dit moment geen problemen meer bekend met deze versie.
+		
+		Desalniettemin wordt er nog gekeken naar de nummering van besluiten en actiepunten, wordt een gekleurde achtergrodn bij de secties overwogen, wordt bij de reactiepuntenlijst nog de optie voor een `besproken bij punt' toegevoegd, wordt nog een optie voor kantlijnteksten voor bijvoorbeeld namen toegevoegd en wordt er nog goed gekeken naar de regelnummers.
+		
+	\section{W.V.T.T.K.}
+		Er is niets ter tafel gekomen.
+		
+	\section{Rondvraag}
+		\begin{description}
+			\item[\ab] vertelt dat, hoewel koekjes wel erg lekker zijn, deze niet altijd even goed voor de gezondheid zijn en deze dus ook de volgende keer niet aanwezig zullen zijn.
+			\item[\rb] weet te vertellen dat het mogelijk is om actiepunten en besluiten op een nieuwe pagina te krijgen met het commando `\lstinline!\newpage!'. Het commando `\lstinline!\pagebreak!' is erg lelijk.
+		\end{description}
+	
+	\section{Volgende vergadering}
+		De volgende vergadering is volgende week dinsdag om 11:00 uur.
+	
+	\section{Resum\'e actiepunten en besluiten}
+		\subsection*{Actiepunten}
+			\actiepunten
+		\subsection*{Besluiten}
+			\besluiten
+	
+	\section{Sluiting}
+		%\gebeurtenis[12:34]{De voorzitter sluit de vergadering.}
+		\sluiting
+	
+\end{document}
